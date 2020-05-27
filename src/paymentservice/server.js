@@ -48,7 +48,25 @@ class HipsterShopServer {
     try {
       logger.info(`PaymentService#Charge invoked with request ${JSON.stringify(call.request)}`);
       const response = charge(call.request);
-      callback(null, response);
+      const DELAY = process.env['DELAY_SECONDS'];  
+      const TIMEOUT = process.env['TIMEOUT_SECONDS'];
+      
+      if (DELAY != null) {
+        const SLEEP = (DELAY > TIMEOUT ? TIMEOUT : DELAY) * 1000
+        setTimeout(() => {
+          if(DELAY > TIMEOUT) {
+            const error = new Error('Time out')
+            const ERROR_CODE = process.env['ERROR_CODE'];
+            error.code = ERROR_CODE != null ? ERROR_CODE : 400
+            callback(error)
+          } else {
+            callback(null, response)
+          }
+          
+        }, SLEEP)
+      } else {
+        callback(null, response);
+      }
     } catch (err) {
       console.warn(err);
       callback(err);

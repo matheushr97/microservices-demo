@@ -34,6 +34,16 @@ const path = require('path');
 const HipsterShopServer = require('./server');
 
 const PORT = process.env['PORT'];
+const DELAY = process.env['DELAY_SECONDS'];
+const TIMEOUT = process.env['TIMEOUT_SECONDS'];
+if(DELAY != null) {
+  console.log(`> Injecting ${DELAY} seconds of delay`)
+  if (TIMEOUT != null) {
+    console.log(`> Timeout ${TIMEOUT} seconds`)
+  }
+  const SLEEP = DELAY > TIMEOUT ? TIMEOUT : DELAY
+  console.log(`> Will sleep for ${SLEEP} seconds`)
+}
 const PROTO_PATH = path.join(__dirname, '/proto/');
 
 const server = new HipsterShopServer(PROTO_PATH, PORT);

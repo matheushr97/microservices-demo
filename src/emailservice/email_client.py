@@ -49,3 +49,4 @@ def send_confirmation_email(email, order):
 
 if __name__ == '__main__':
   logger.info('Client for email service.')
+  send_confirmation_email('matheushr97@gmail.com', None)

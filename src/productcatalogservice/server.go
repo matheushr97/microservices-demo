@@ -122,6 +122,11 @@ func main() {
 	if os.Getenv("PORT") != "" {
 		port = os.Getenv("PORT")
 	}
+
+	dStart := 30 * time.Second
+	log.Infof("Lazy startup - sleeping %v", dStart)
+	time.Sleep(dStart)
+
 	log.Infof("starting grpc server at :%s", port)
 	run(port)
 	select {}

@@ -110,6 +110,10 @@ class EmailService(BaseEmailService):
 
 class DummyEmailService(BaseEmailService):
   def SendOrderConfirmation(self, request, context):
+    if( "DELAY_SECONDS" in os.environ):
+      delay_seconds=os.environ.get('DELAY_SECONDS')
+      logger.info("Sleeping " + delay_seconds)
+      time.sleep(int(delay_seconds))  
     logger.info('A request to send order confirmation email to {} has been received.'.format(request.email))
     return demo_pb2.Empty()
 
